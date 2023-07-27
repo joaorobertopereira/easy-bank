@@ -13,6 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name = "notice_details")
 public class Notice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

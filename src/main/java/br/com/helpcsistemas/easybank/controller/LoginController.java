@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.Date;
+import java.util.Objects;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,15 +25,17 @@ public class LoginController {
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody Customer customer) {
-
-        Customer newCustomer = new Customer();
+        Customer newCustomer;
         ResponseEntity response = null;
+
+        if (Objects.nonNull(customerRepository.findByEmail(customer.getEmail()))) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User already registered");
+        }
 
         try
         {
             String hashPassword = passwordEncoder.encode(customer.getPwd());
             customer.setPwd(hashPassword);
-            customer.setCreateDt(String.valueOf(new Date(System.currentTimeMillis())));
             newCustomer = customerRepository.save(customer);
             if (newCustomer.getId() > 0) {
                 response = ResponseEntity.status(HttpStatus.CREATED).body("User registered");
