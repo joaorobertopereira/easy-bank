@@ -41,7 +41,7 @@ public class LoginController {
                 response = ResponseEntity.status(HttpStatus.CREATED).body("User registered");
             }
         } catch (Exception e) {
-            response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR). body("An exception occured. error: "+e.getMessage());
+            response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR). body("An exception occurred. error: "+e.getMessage());
 
         }
 
