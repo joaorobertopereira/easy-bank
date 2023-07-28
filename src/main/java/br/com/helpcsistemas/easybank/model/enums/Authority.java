@@ -2,8 +2,8 @@ package br.com.helpcsistemas.easybank.model.enums;
 
 public enum Authority {
 
-    ADMIN(1, "ADMIN"),
-    USER(2, "USER");
+    ADMIN(1, "ROLE_ADMIN"),
+    USER(2, "ROLE_USER");
 
     private final Integer cod;
     private final String name;

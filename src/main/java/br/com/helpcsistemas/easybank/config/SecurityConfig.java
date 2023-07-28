@@ -1,8 +1,8 @@
 package br.com.helpcsistemas.easybank.config;
 
+import br.com.helpcsistemas.easybank.filter.AuthoritiesLoggingAfterFilter;
 import br.com.helpcsistemas.easybank.filter.CsrfCookieFilter;
 import br.com.helpcsistemas.easybank.filter.RequestValidationBeforeFilter;
-import br.com.helpcsistemas.easybank.model.enums.Authority;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -45,12 +45,12 @@ public class SecurityConfig {
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
                 .addFilterBefore(new RequestValidationBeforeFilter(), BasicAuthenticationFilter.class)
-
+                .addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests((requests)->requests
-                        .requestMatchers("/myAccount").hasRole(Authority.USER.getName())
-                        .requestMatchers("/myBalance").hasAnyRole(Authority.USER.getName(),Authority.ADMIN.getName())
-                        .requestMatchers("/myLoans").hasRole(Authority.USER.getName())
-                        .requestMatchers("/myCards").hasRole(Authority.USER.getName())
+                        .requestMatchers("/myAccount").hasRole("USER")
+                        .requestMatchers("/myBalance").hasAnyRole("USER","ADMIN")
+                        .requestMatchers("/myLoans").hasRole("USER")
+                        .requestMatchers("/myCards").hasRole("USER")
                         .requestMatchers("/user").authenticated()
                         .requestMatchers("/notices","/contact","/register").permitAll())
                 .formLogin(Customizer.withDefaults())
