@@ -1,6 +1,7 @@
 package br.com.helpcsistemas.easybank.config;
 
 import br.com.helpcsistemas.easybank.filter.AuthoritiesLoggingAfterFilter;
+import br.com.helpcsistemas.easybank.filter.AuthoritiesLoggingAtFilter;
 import br.com.helpcsistemas.easybank.filter.CsrfCookieFilter;
 import br.com.helpcsistemas.easybank.filter.RequestValidationBeforeFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,6 +46,7 @@ public class SecurityConfig {
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
                 .addFilterBefore(new RequestValidationBeforeFilter(), BasicAuthenticationFilter.class)
+                .addFilterAt(new AuthoritiesLoggingAtFilter(), BasicAuthenticationFilter.class)
                 .addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests((requests)->requests
                         .requestMatchers("/myAccount").hasRole("USER")
