@@ -10,6 +10,11 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8081/realms/easy-bank-dev/protocol/openid-connect/certs
 
 logging:
   level:
